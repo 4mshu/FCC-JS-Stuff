@@ -72,11 +72,16 @@ function calculateCalories(e) {
     output.classList.remove('hide');
   }
 
-  
-addEntryButton.addEventListener("click", addEntry);
-calorieCounter.addEventListener("submit", calculateCalories);
+function clearForm() {
+    const inputContainers = Array.from(document.querySelectorAll('.input-container'));
+    for(let container of inputContainers){
+        container.innerHTML="";
+    }
+    budgetNumberInput.value = "";
+    output.innerText = "";
+    output.classList.add('hide');
+  }
 
-function clearForm(){
-    const inputContainers = document.querySelectorAll('.input-container');
-
-}
+  addEntryButton.addEventListener("click", addEntry);
+  calorieCounter.addEventListener("submit", calculateCalories);
+  clearButton.addEventListener('click', clearForm);
