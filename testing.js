@@ -1,2 +1,12 @@
-console.log(Math.floor(Math.random()*4));
-console.log("Hello World!");
+const printGreeting = () => {
+    console.log('Hello there!'); 
+  }
+  printGreeting();
+
+const printMessage = org => {
+    console.log(`${org} is awesome!`);
+}
+printMessage("freeCodeCamp");
+
+const addTwoNumbers = (num1,num2) => (num1+num2);
+console.log(addTwoNumbers(3,4));
