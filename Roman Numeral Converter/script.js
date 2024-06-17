@@ -43,19 +43,23 @@ const romanConversion = (number) => {
     const thousands = Math.floor(number / 1000);
     number %= 1000;
     result.innerText += "M".repeat(thousands);
+    console.log(thousands);
 
     // Hundreds place conversion
     const hundreds = Math.floor(number / 100);
     number %= 100;
     result.innerText += convertDigitToRoman(hundreds, "C", "D", "M");
+    console.log(hundreds);
 
     // Tens place conversion
     const tens = Math.floor(number / 10);
     number %= 10;
     result.innerText += convertDigitToRoman(tens, "X", "L", "C");
+    console.log(tens);
 
     // Units place conversion
     result.innerText += convertDigitToRoman(number, "I", "V", "X");
+    console.log(number);
 };
 
 // Function to handle user input and initiate conversion
