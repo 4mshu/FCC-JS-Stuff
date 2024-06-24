@@ -2,7 +2,6 @@ const checkBtn = document.getElementById("check-btn")
 const clearBtn = document.getElementById("clear-btn")
 const checkPhoneNumber = (number) => {
     const regex = /^1?[-. ]?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}$/
-    const regex2 = /^1 \(\d{3}\) \d{3}-\d{4}/
     const resultsDiv =document.getElementById("results-div")
     if(regex.test(number)){
         resultsDiv.innerText = `Valid US number: ${number}`
