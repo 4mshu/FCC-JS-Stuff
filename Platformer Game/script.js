@@ -67,6 +67,7 @@ class Platform {
     }
   }
   
+class Checkpoint {};
 
 const player = new Player();
 
@@ -114,6 +115,16 @@ const animate = () =>{
         if(collisionDetectionRules.every(collide=>collide)){
             player.velocity.y = 0;
             return
+        }
+        const platformDetectionRules = [
+            player.position.x >= platform.position.x - player.width/2,
+            player.position.x <= platform.position.x + platform.width - player.width/3,
+            player.position.y + player.height >= platform.position.y,
+            player.position.y <= platform.position.y + platform.height
+        ];
+        if(platformDetectionRules.every(collide=>collide)){
+            player.position.y = platform.position.y + player.height;
+            player.velocity.y = gravity;
         }
     })
 };
