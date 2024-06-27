@@ -41,27 +41,105 @@ const updateRadioOption = (index, score) => {
   scoreSpans[index].textContent = `, score = ${score}`;
 };
 
-const getHighestDuplicates = (arr) =>{
-    let counts ={};
-    let highestCount = 0 
-    for (let num of arr) {
-        if (counts[num]) {
-            counts[num]++;
-        } else {
-            counts[num] = 1;
-        }
-        if(counts[num]>highestCount){
-            highestCount = counts[num]
-        }
+const updateScore = (selectedValue, achieved) => {
+  score += parseInt(selectedValue);
+  totalScore.textContent = score;
+
+  scoreHistory.innerHTML += `<li>${achieved} : ${selectedValue}</li>`;
+};
+
+const getHighestDuplicates = (arr) => {
+  const counts = {};
+
+  for (const num of arr) {
+    if (counts[num]) {
+      counts[num]++;
+    } else {
+      counts[num] = 1;
     }
-   if(highestCount >= 4){
-    updateRadioOption(1, arr.reduce((acc,el)=>acc+el,0));
-    updateRadioOption(0, arr.reduce((acc,el)=>acc+el,0));
-   } else if (highestCount >= 3){
-    updateRadioOption(0, arr.reduce((acc,el)=>acc+el,0));
-   } else {
-    updateRadioOption(5, 0)
-   }
+  }
+
+  let highestCount = 0;
+
+  for (const num of arr) {
+    const count = counts[num];
+    if (count >= 3 && count > highestCount) {
+      highestCount = count;
+    }
+    if (count >= 4 && count > highestCount) {
+      highestCount = count;
+    }
+  }
+
+  const sumOfAllDice = arr.reduce((a, b) => a + b, 0);
+
+  if (highestCount >= 4) {
+    updateRadioOption(1, sumOfAllDice);
+  }
+
+  if (highestCount >= 3) {
+    updateRadioOption(0, sumOfAllDice);
+  }
+
+  updateRadioOption(5, 0);
+};
+
+const detectFullHouse = (arr) => {
+const counts = {};
+  for (const num of arr) {
+    if (counts[num]) {
+      counts[num]++;
+    } else {
+      counts[num] = 1;
+    }
+  }
+  console.log(counts)
+  let counts2 = 0;
+  let counts3 = 0;
+
+  for (let item in counts){
+    if(counts[item]==2){
+        counts2 = 2;
+    } else if(counts[item]==3){
+        counts3 =3;
+    }
+  }
+  console.log(counts2,counts3)
+  if(counts2===2 && counts3===3){
+    updateRadioOption(2, 25);
+  } else{
+    updateRadioOption(5, 0);
+  }
+}
+
+const resetRadioOptions = () => {
+  scoreInputs.forEach((input) => {
+    input.disabled = true;
+    input.checked = false;
+  });
+
+  scoreSpans.forEach((span) => {
+    span.textContent = "";
+  });
+};
+
+const resetGame = () => {
+  diceValuesArr = [0, 0, 0, 0, 0];
+  score = 0;
+  round = 1;
+  rolls = 0;
+
+  listOfAllDice.forEach((dice, index) => {
+    dice.textContent = diceValuesArr[index];
+  });
+
+  totalScore.textContent = score;
+  scoreHistory.innerHTML = "";
+
+  currentRoundRolls.textContent = rolls;
+  currentRound.textContent = round;
+
+  resetRadioOptions();
 };
 
 rollDiceBtn.addEventListener("click", () => {
@@ -69,9 +147,12 @@ rollDiceBtn.addEventListener("click", () => {
     alert("You have made three rolls this round. Please select a score.");
   } else {
     rolls++;
+    resetRadioOptions();
     rollDice();
     updateStats();
     getHighestDuplicates(diceValuesArr);
+    detectFullHouse(diceValuesArr);
+  
   }
 });
 
@@ -84,5 +165,34 @@ rulesBtn.addEventListener("click", () => {
   } else {
     rulesBtn.textContent = "Show Rules";
     rulesContainer.style.display = "none";
+  }
+});
+
+keepScoreBtn.addEventListener("click", () => {
+  let selectedValue;
+  let achieved;
+
+  for (const radioButton of scoreInputs) {
+    if (radioButton.checked) {
+      selectedValue = radioButton.value;
+      achieved = radioButton.id;
+      break;
+    }
+  }
+
+  if (selectedValue) {
+    rolls = 0;
+    round++;
+    updateStats();
+    resetRadioOptions();
+    updateScore(selectedValue, achieved);
+    if (round > 6) {
+      setTimeout(() => {
+        alert(`Game Over! Your total score is ${score}`);
+        resetGame();
+      }, 500);
+    }
+  } else {
+    alert("Please select an option or roll the dice");
   }
 });
