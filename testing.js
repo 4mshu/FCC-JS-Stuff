@@ -5,3 +5,5 @@ const updateScore = (selectedValue,achieved) => {
 }
 
 updateScore("20",20)
+
+
