@@ -41,6 +41,7 @@ const calculateChange = (cash,price) => {
             "TWENTY" : twenties
         }
         changeArr.push(obj)
+        cid[7][1] -= twenties * 20;
     }
 
     if (change / 10 >= 1){
@@ -50,6 +51,7 @@ const calculateChange = (cash,price) => {
             "TEN" : tens
         }
         changeArr.push(obj)
+        cid[6][1] -= tens * 10;
     }
 
     if (change / 5 >= 1){
@@ -59,6 +61,7 @@ const calculateChange = (cash,price) => {
             "FIVE" : fives
         }
         changeArr.push(obj)
+        cid[5][1] -= fives * 5;
     }
 
     if (change / 1 >= 1){
@@ -68,6 +71,7 @@ const calculateChange = (cash,price) => {
             "ONE" : ones
         }
         changeArr.push(obj)
+        cid[4][1] -= ones * 1;
     }
 
     if (change / 0.25 >= 1){
@@ -77,6 +81,7 @@ const calculateChange = (cash,price) => {
             "QUARTER" : quarters
         }
         changeArr.push(obj)
+        cid[3][1] -= quarters * 0.25;
     }
 
     if (change / 0.1 >= 1){
@@ -86,6 +91,7 @@ const calculateChange = (cash,price) => {
             "DIME" : dimes
         }
         changeArr.push(obj)
+        cid[2][1] -= dimes * 0.1;
     }
 
     if (change / 0.05 >= 1){
@@ -95,10 +101,13 @@ const calculateChange = (cash,price) => {
             "NICKEL" : nickels
         }
         changeArr.push(obj)
+        cid[1][1] -= nickels * 0.05;
     }
 
     let penny = {"PENNY" : change * 100}
     changeArr.push(penny);
+    cid[0][1] -= penny.PENNY;
+    console.log(cid)
     statusMsg(changeArr);
 }
 
