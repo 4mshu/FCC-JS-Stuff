@@ -15,8 +15,34 @@ const purchaseBtn = document.getElementById("purchase-btn")
 const changeDue = document.getElementById("change-due")
 
 const calculateChange = (cash,price) => {
-    const change = cash - price;
-    
+    let change = (cash - price).toFixed(2);
+    let changeArr = [];
+    let hundreds = 0;
+    if (change / 100 >= 1){
+        hundreds = Math.floor(change/100);
+        change = (change % 100).toFixed(2);
+        let obj = {
+            "ONE HUNDRED" : hundreds
+        }
+        changeArr.push(obj)
+    }
+    if (change / 20 >= 1){
+        twenties = Math.floor(change/20);
+        change = (change % 20).toFixed(2);
+        let obj = {
+            "TWENTY" : twenties
+        }
+        changeArr.push(obj)
+    }
+    if (change / 10 >= 1){
+        tens = Math.floor(change/10);
+        change = (change % 10).toFixed(2);
+        let obj = {
+            "TEN" : tens
+        }
+        changeArr.push(obj)
+    }
+    console.log(changeArr);
 }
 
 purchaseBtn.addEventListener("click", ()=>{
