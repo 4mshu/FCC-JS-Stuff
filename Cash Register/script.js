@@ -42,6 +42,22 @@ const calculateChange = (cash,price) => {
         }
         changeArr.push(obj)
     }
+    if (change / 5 >= 1){
+        fives = Math.floor(change/5);
+        change = (change % 5).toFixed(2);
+        let obj = {
+            "FIVE" : fives
+        }
+        changeArr.push(obj)
+    }
+    if (change / 1 >= 1){
+        ones = Math.floor(change/1);
+        change = (change % 1).toFixed(2);
+        let obj = {
+            "ONE" : ones
+        }
+        changeArr.push(obj)
+    }
     console.log(changeArr);
 }
 
