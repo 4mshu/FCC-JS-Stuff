@@ -14,7 +14,7 @@ const cash = document.getElementById("cash")
 const purchaseBtn = document.getElementById("purchase-btn")
 const changeDue = document.getElementById("change-due")
 
-const checkStatus = (price) => {
+const checkStatus = (price,cash) => {
     let sum = 0
     let totalCid = cid.forEach((item)=>
         sum += item[1]);
@@ -171,7 +171,7 @@ purchaseBtn.addEventListener("click", ()=>{
         changeDue.textContent = "No change due - customer paid with exact cash"
     }
     else if (price<cash.value) {
-        console.log(checkStatus((price)).toFixed(2))
+        console.log(checkStatus((price)).toFixed(2),cash.value)
         calculateChange(cash.value,price);
     }
 })
