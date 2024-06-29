@@ -16,12 +16,18 @@ const changeDue = document.getElementById("change-due")
 
 const checkStatus = (price,cash) => {
     let sum = 0
-    let totalCid = cid.forEach((item)=>
-        sum += item[1]);
-    return sum;
+    cid.forEach((el)=> {
+        sum += el[1];
+    }) 
+    if(sum > (cash-price)){
+        changeDue.textContent = "Status: OPEN "
+        calculateChange(cash,price)
+    } else {
+        changeDue.textContent = "Status: INSUFFICIENT_FUNDS"
+    }
 }
 
-const statusMsg = (arr,change) => {
+const changeMsg = (arr,change) => {
     let countOfChange = arr.reduce((acc, current) => {
         if (acc[current]) {
             acc[current]++;
@@ -156,22 +162,16 @@ const calculateChange = (cash,price) => {
             break;
         }
     }
-    if(Math.round(remainingChange,2)==0){
-        statusMsg(changeArr,change)
-    }
-    
+        changeMsg(changeArr,change)
 }
 
 purchaseBtn.addEventListener("click", ()=>{
-    changeDue.textContent = ""
-
     if(cash.value<price){
-        alert("Customer does not have enough money to purchase the item")
+        alert("Customer does not have enough money to purchase the item");
     } else if (cash.value == price){
         changeDue.textContent = "No change due - customer paid with exact cash"
     }
-    else if (price<cash.value) {
-        console.log(checkStatus((price)).toFixed(2),cash.value)
-        calculateChange(cash.value,price);
+    else {
+    checkStatus((price).toFixed(2),(cash.value));
     }
 })
