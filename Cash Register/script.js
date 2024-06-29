@@ -1,21 +1,24 @@
 let price = 19.5;
 let cid = [
-   [["PENNY", 0.01],
-    ["NICKEL", 0],
-    ["DIME", 0],
-    ["QUARTER", 0],
-    ["ONE", 0],
-    ["FIVE", 0],
-    ["TEN", 0],
-    ["TWENTY", 0],
-    ["ONE HUNDRED", 100]]
-];
+    ['PENNY', 1.01],
+    ['NICKEL', 2.05],
+    ['DIME', 3.1],
+    ['QUARTER', 4.25],
+    ['ONE', 90],
+    ['FIVE', 55],
+    ['TEN', 20],
+    ['TWENTY', 60],
+    ['ONE HUNDRED', 100]
+  ];
 const cash = document.getElementById("cash")
 const purchaseBtn = document.getElementById("purchase-btn")
 const changeDue = document.getElementById("change-due")
 
 const checkStatus = (price) => {
-
+    let sum = 0
+    let totalCid = cid.forEach((item)=>
+        sum += item[1]);
+    return sum;
 }
 
 const statusMsg = (arr,change) => {
@@ -155,8 +158,6 @@ const calculateChange = (cash,price) => {
     }
     if(Math.round(remainingChange,2)==0){
         statusMsg(changeArr,change)
-    } else{
-        changeDue.textContent = "Status: INSUFFICIENT_FUNDS"
     }
     
 }
@@ -170,7 +171,7 @@ purchaseBtn.addEventListener("click", ()=>{
         changeDue.textContent = "No change due - customer paid with exact cash"
     }
     else if (price<cash.value) {
-        checkStatus(price,cash,cid)
+        console.log(checkStatus((price)).toFixed(2))
         calculateChange(cash.value,price);
     }
 })
