@@ -14,101 +14,103 @@ const cash = document.getElementById("cash")
 const purchaseBtn = document.getElementById("purchase-btn")
 const changeDue = document.getElementById("change-due")
 
-const statusMsg = (arr) => {
+const statusMsg = (arr,change) => {
+    console.log(arr,change)
 
 }
 
 const calculateChange = (cash,price) => {
-    let change = (cash - price).toFixed(2);
-    console.log(change)
+    const change = (cash - price).toFixed(2);
+    let remainingChange = change
     let changeArr = [];
-    let hundreds = 0;
-
-    if (change / 100 >= 1){
-        hundreds = Math.floor(change/100);
-        change = (change % 100).toFixed(2);
-        let obj = {
-            "ONE HUNDRED" : hundreds
+    while (cid[8][1] !=0 ){
+        if(remainingChange / 100 >= 1){
+            changeArr.push("hundred")
+            cid[8][1] -= 100;
+            remainingChange -= (100)
+        } else {
+            break;
         }
-        changeArr.push(obj)
-        cid[8][1] -= hundreds * 100;
+    } 
+    while (cid[7][1] !=0 ){
+        if(remainingChange / 20 >= 1){
+            changeArr.push("twenty")
+            cid[7][1] -= 20;
+            remainingChange -= (20)
+        }
+        else {
+            break;
+        }
+    }
+    while (cid[6][1] !=0 ){
+        if(remainingChange / 10 >= 1){
+            changeArr.push("ten")
+            cid[6][1] -= 10;
+            remainingChange -= (10)
+        }         else {
+            break;
+        }
+    }
+    while (cid[5][1] !=0 ){
+        if(remainingChange / 5 >= 1){
+            changeArr.push("five")
+            cid[5][1] -= 5;
+            remainingChange -= (5)
+        }         else {
+            break;
+        }
+    }
+    while (cid[4][1] !=0 ){
+        if(remainingChange / 1 >= 1){
+            changeArr.push("one")
+            cid[4][1] -= 1;
+            remainingChange -= (1)
+        } else {
+            break;
+        }
+    }
+    while (cid[3][1] !=0 ){
+        if(remainingChange / 0.25 >= 1){
+            changeArr.push("quarter")
+            cid[3][1] -= 0.25;
+            remainingChange -= (0.25)
+        } else {
+            break;
+        }
+    }
+    while (cid[2][1] !=0 ){
+        if(remainingChange / 0.1 >= 1){
+            changeArr.push("dime")
+            cid[2][1] -= 0.1;
+            remainingChange -= (0.1)
+        } else {
+            break;
+        }
+    }
+    while (cid[1][1] !=0 ){
+        if(remainingChange / 0.05 >= 1){
+            changeArr.push("nickel")
+            cid[1][1] -= 0.05;
+            remainingChange -= (0.05)
+        }        else {
+            break;
+        }
+    }
+    while (cid[0][1] !=0 ){
+        if(remainingChange.toFixed(2) / 0.01 >= 1){
+            changeArr.push("penny")
+            cid[0][1] -= 0.01;
+            remainingChange -= (0.01)
+        } else {
+            break;
+        }
     }
 
-    if (change / 20 >= 1){
-        twenties = Math.floor(change/20);
-        change = (change % 20).toFixed(2);
-        let obj = {
-            "TWENTY" : twenties
-        }
-        changeArr.push(obj)
-        cid[7][1] -= twenties * 20;
+    if(Math.round(remainingChange,2)==0){
+        statusMsg(changeArr,change)
+    } else{
+        changeDue.textContent = "Sorry, we don't have enough change"
     }
-
-    if (change / 10 >= 1){
-        tens = Math.floor(change/10);
-        change = (change % 10).toFixed(2);
-        let obj = {
-            "TEN" : tens
-        }
-        changeArr.push(obj)
-        cid[6][1] -= tens * 10;
-    }
-
-    if (change / 5 >= 1){
-        fives = Math.floor(change/5);
-        change = (change % 5).toFixed(2);
-        let obj = {
-            "FIVE" : fives
-        }
-        changeArr.push(obj)
-        cid[5][1] -= fives * 5;
-    }
-
-    if (change / 1 >= 1){
-        ones = Math.floor(change/1);
-        change = (change % 1).toFixed(2);
-        let obj = {
-            "ONE" : ones
-        }
-        changeArr.push(obj)
-        cid[4][1] -= ones * 1;
-    }
-
-    if (change / 0.25 >= 1){
-        quarters = Math.floor(change/0.25);
-        change = (change % 0.25).toFixed(2);
-        let obj = {
-            "QUARTER" : quarters
-        }
-        changeArr.push(obj)
-        cid[3][1] -= quarters * 0.25;
-    }
-
-    if (change / 0.1 >= 1){
-        dimes = Math.floor(change/0.1);
-        change = (change % 0.1).toFixed(2);
-        let obj = {
-            "DIME" : dimes
-        }
-        changeArr.push(obj)
-        cid[2][1] -= dimes * 0.1;
-    }
-
-    if (change / 0.05 >= 1){
-        nickels = Math.floor(change/0.05);
-        change = (change % 0.05).toFixed(2);
-        let obj = {
-            "NICKEL" : nickels
-        }
-        changeArr.push(obj)
-        cid[1][1] -= nickels * 0.05;
-    }
-
-    let penny = {"PENNY" : change * 100}
-    changeArr.push(penny);
-    cid[0][1] -= penny.PENNY;
-    console.log(cid)
-    statusMsg(changeArr);
 }
 
 purchaseBtn.addEventListener("click", ()=>{
