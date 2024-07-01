@@ -60,33 +60,33 @@ function calculateChange(changeDue, denominations) {
         counts[element] = 1;
     }
 });
-console.log(changeDue)
-if (changeDue){
-    changeMsg.textContent = "Status: INSUFFICIENT_FUNDS"
+
+if (changeDue > 0){
+    changeMsg.textContent += "Status: INSUFFICIENT_FUNDS"
 } else{
     let textMsg = "";
     for (let i in counts){
-        textMsg += `${i}: $${(bills[i]*counts[i])} `
-        
-    }
-    changeMsg.textContent = `Status: OPEN ${textMsg}`;
+        textMsg += `${i}: $${(bills[i]*counts[i])} ` 
+    } 
+    return textMsg;
 } 
 }
 purchaseBtn.addEventListener("click", () => {
-    changeMsg.textContent = "";
   const cash = document.getElementById("cash");
-  const changeDue = cash.value - price;
+  let changeDue = cash.value - price;
   let denominations = [...cid].reverse();
-  
+
+
   if (changeDue < 0) {
     alert("Customer does not have enough money to purchase the item");
   } else if (changeDue == 0) {
     changeMsg.textContent = "No change due - customer paid with exact cash";   
   } else if (changeDue == cashInDrawer(cid)) {
     changeMsg.textContent = `Status: CLOSED ${calculateChange(changeDue, denominations)}`; 
-  } else if (changeDue > cashInDrawer(cid)) {
+  } else if (cashInDrawer(cid) < changeDue) {
     changeMsg.textContent = "Status: INSUFFICIENT_FUNDS";
-  } else {
-    calculateChange(changeDue, denominations);
+  } else if (calculateChange(changeDue, denominations)) {
+    changeMsg.textContent = `Status: OPEN ${calculateChange(changeDue, denominations)}`;
+    ;
   }
 });
