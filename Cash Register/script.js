@@ -2,7 +2,7 @@ const purchaseBtn = document.getElementById("purchase-btn");
 const changeMsg = document.getElementById("change-due");
 
 let price = 19.5;
-let cid = [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]];
+let cid = [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]];
 
 let bill = [
   ['ONE HUNDRED', 100],
@@ -40,7 +40,7 @@ function calculateChange(changeDue, denominations) {
     
   let changeArr = [];
   for (let i = 0; i < bill.length; i++){
-    while(changeDue / bill[i][1] >= 1 && denominations[i][1] >= 0){
+    while(changeDue / bill[i][1] >= 1 && denominations[i][1] !== 0){
         changeArr.push(bill[i][0])
         denominations[i][1] -= bill[i][1];
         changeDue -= bill[i][1];
@@ -65,15 +65,13 @@ if (changeDue > 0){
 } else{
     let textMsg = "";
     for (let i in counts){
-        textMsg += `${i} $${(bills[i]*counts[i])} `   
+        textMsg += `${i}: $${(bills[i]*counts[i])} `   
     }
     return textMsg;
-
+} 
 }
-  
-}
-
 purchaseBtn.addEventListener("click", () => {
+    changeMsg.textContent = "";
   const cash = document.getElementById("cash");
   const changeDue = cash.value - price;
   let denominations = [...cid].reverse();
