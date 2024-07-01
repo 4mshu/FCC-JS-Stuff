@@ -1,8 +1,8 @@
 const purchaseBtn = document.getElementById("purchase-btn");
 const changeMsg = document.getElementById("change-due");
 
-let price = 3.26
-const cid = [["PENNY", 1.01], ["NICKEL", 2.05], ["DIME", 3.1], ["QUARTER", 4.25], ["ONE", 90], ["FIVE", 55], ["TEN", 20], ["TWENTY", 60], ["ONE HUNDRED", 100]];
+let price = 19.5
+const cid = [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 5], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]];
 
 let bill = [
   ['ONE HUNDRED', 100],
@@ -58,15 +58,17 @@ function calculateChange(changeDue, denominations) {
     }
 });
 
-if (changeDue > 0){
-    return undefined;
-} else{
     let textMsg = "";
     for (let i in counts){
         textMsg += `${i}: $${(bills[i]*counts[i])} `
     } 
-    return textMsg;
-} 
+if (changeDue > 0){
+  changeMsg.textContent = `Status: INSUFFICIENT_FUNDS`
+} else if (!Math.abs(cashInDrawer(cid))){
+  changeMsg.textContent = `Status: CLOSED ${textMsg}`
+}else {
+  changeMsg.textContent = `Status: OPEN ${textMsg}`
+}
 }
 
 
@@ -75,18 +77,15 @@ purchaseBtn.addEventListener("click", () => {
   const changeDue = cash.value - price;
   const change = changeDue;
   const denominations = [...cid].reverse();
-  const denominations2 = [...cid].reverse();
 
   if (changeDue < 0) {
     alert("Customer does not have enough money to purchase the item");
   } else if (changeDue == 0) {
     changeMsg.textContent = "No change due - customer paid with exact cash";   
-  } else if(changeDue == cashInDrawer(denominations)){
-        changeMsg.textContent = `Status: CLOSED ${calculateChange(changeDue,denominations)}`
   } else if (cashInDrawer(denominations) < changeDue){
     changeMsg.textContent = `Status: INSUFFICIENT_FUNDS`
   } 
   else {
-    changeMsg.textContent = `Status: OPEN ${calculateChange(changeDue,denominations)}`
+    calculateChange(changeDue,denominations)
   }
 });
