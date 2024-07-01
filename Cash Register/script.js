@@ -83,7 +83,7 @@ purchaseBtn.addEventListener("click", () => {
     changeMsg.textContent = "No change due - customer paid with exact cash";   
   } else if(changeDue == cashInDrawer(denominations)){
         changeMsg.textContent = `Status: CLOSED ${calculateChange(changeDue,denominations)}`
-  } else if (cashInDrawer(denominations) < changeDue || !calculateChange(change,denominations2)){
+  } else if (cashInDrawer(denominations) < changeDue){
     changeMsg.textContent = `Status: INSUFFICIENT_FUNDS`
   } 
   else {
