@@ -2,7 +2,7 @@ const purchaseBtn = document.getElementById("purchase-btn");
 const changeMsg = document.getElementById("change-due");
 
 let price = 19.5;
-let cid = [["PENNY", 0.5], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 0], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]];
+let cid = [["PENNY", 0.01], ["NICKEL", 0], ["DIME", 0], ["QUARTER", 0], ["ONE", 1], ["FIVE", 0], ["TEN", 0], ["TWENTY", 0], ["ONE HUNDRED", 0]];
 
 let bill = [
   ['ONE HUNDRED', 100],
@@ -60,14 +60,16 @@ function calculateChange(changeDue, denominations) {
         counts[element] = 1;
     }
 });
-if (changeDue > 0){
-    changeMsg.textContent = "Status: INSUFFICIENT_FUNDS";
+console.log(changeDue)
+if (changeDue){
+    changeMsg.textContent = "Status: INSUFFICIENT_FUNDS"
 } else{
     let textMsg = "";
     for (let i in counts){
-        textMsg += `${i}: $${(bills[i]*counts[i])} `   
+        textMsg += `${i}: $${(bills[i]*counts[i])} `
+        
     }
-    return textMsg;
+    changeMsg.textContent = `Status: OPEN ${textMsg}`;
 } 
 }
 purchaseBtn.addEventListener("click", () => {
@@ -85,6 +87,6 @@ purchaseBtn.addEventListener("click", () => {
   } else if (changeDue > cashInDrawer(cid)) {
     changeMsg.textContent = "Status: INSUFFICIENT_FUNDS";
   } else {
-    changeMsg.textContent = `Status: OPEN ${(calculateChange(changeDue, denominations))}`;
+    calculateChange(changeDue, denominations);
   }
 });
