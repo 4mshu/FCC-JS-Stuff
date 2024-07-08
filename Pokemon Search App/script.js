@@ -13,7 +13,8 @@ const specialDefense = document.getElementById("special-defense");
 const speed = document.getElementById("speed");
 
 searchBtn.addEventListener("click", function(){
-    pokemonName.innerText = "";
+  
+  pokemonName.innerText = "";
     pokemonId.innerText = "";
     pokeWeight.innerText = "";
     pokeHeight.innerText = "";
@@ -59,9 +60,26 @@ const findPokemon = (data,pokemon) => {
       pokeStats()
 };
 
+const addImage = (sprites) => {
+  const newDiv = document.createElement('div');
+  const newImg = document.createElement('img');
+  newImg.id = 'sprite';
+  newImg.src = sprites.front_default;
+  newDiv.appendChild(newImg);
+  document.body.appendChild(newDiv);
+}
+
+const pokeTypes = (types) =>{
+  console.log(types[0].type.name);
+  for(let i=0; i< types.length; i++){
+    
+  }
+
+}
+
 const displayStats = (data) =>{
     console.log(data);
-    const {name,id,weight,height,stats,sprites} = data;
+    const {name,id,weight,height,stats,sprites,types} = data;
     pokemonName.innerText += name.toUpperCase();
     pokemonId.innerText += id;
     pokeWeight.innerText += weight;
@@ -72,9 +90,10 @@ const displayStats = (data) =>{
     specialAttack.innerText += stats[3].base_stat;
     specialDefense.innerText += stats[4].base_stat;
     speed.innerText += stats[5].base_stat;
-    const newElement = documen.createElement("div");
+    const newElement = document.createElement("div");
     
-    
+    addImage(sprites);
+    pokeTypes(types)
 }
 
 
